@@ -1,0 +1,16 @@
+#N canvas 835 369 450 300 10;
+#X obj 50 70 midiclock;
+#X obj 50 95 bng 15 250 50 0 mclk empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
+#X floatatom 70 95 5 0 0 0 - - -, f 5;
+#X floatatom 127 95 5 0 0 0 - - -, f 5;
+#X obj 107 95 tgl 15 0 mclks empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X obj 50 20 r npulses;
+#X obj 120 20 inlet;
+#X connect 0 0 1 0;
+#X connect 0 1 2 0;
+#X connect 0 2 4 0;
+#X connect 0 3 3 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 2;
