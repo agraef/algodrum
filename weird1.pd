@@ -1,4 +1,4 @@
-#N canvas 677 273 523 398 10;
+#N canvas 803 386 523 398 10;
 #X declare -path lib;
 #X obj 24 163 meter;
 #X floatatom 24 221 5 0 0 0 - - -, f 5;
@@ -51,8 +51,8 @@
 #X obj 200 215 hsl 80 15 0 1 0 0 empty range-to empty -2 -8 0 10 #fc3850
 #000000 #000000 7900 1;
 #X obj 114 243 s npulses;
-#X obj 200 170 tgl 15 1 quantize empty quantize 17 7 0 10 #fcfcfc #000000
-#000000 1 1;
+#X obj 200 170 tgl 15 1 quantize quantize-r quantize 17 7 0 10 #fcfcfc
+#000000 #000000 0 1;
 #X obj 200 47 r play;
 #X obj 288 285 gmkit;
 #N canvas 746 483 450 325 pattern 0;
@@ -138,11 +138,13 @@ presets.;
 #000000 0 1;
 #X text 240 60 MIDI clock support - experimental, f 20;
 #X obj 270 120 mclk;
-#X text 340 150 K1 - low pulse strength \; K2 - high pulse strength
-\; bend up - duplet \; bend dn - triplet, f 26;
 #X obj 340 100 declare -path lib;
 #X obj 340 120 control-combo;
 #X obj 24 334 pulse-filter;
+#X obj 270 170 tgl 15 1 layer layer-r layer 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X text 340 150 K3 - low pulse strength \; K4 - high pulse strength
+\; bend up - duplet \; bend dn - triplet, f 26;
 #X connect 0 0 1 0;
 #X connect 0 1 2 0;
 #X connect 1 0 3 0;
@@ -178,11 +180,11 @@ presets.;
 #X connect 32 0 0 1;
 #X connect 33 0 32 0;
 #X connect 34 0 46 0;
-#X connect 37 0 55 1;
-#X connect 42 0 55 2;
+#X connect 37 0 54 1;
+#X connect 42 0 54 2;
 #X connect 45 0 12 2;
-#X connect 48 0 55 0;
+#X connect 48 0 54 0;
 #X connect 48 1 31 0;
 #X connect 49 0 51 0;
-#X connect 55 0 35 0;
-#X connect 55 0 40 0;
+#X connect 54 0 35 0;
+#X connect 54 0 40 0;

@@ -1,7 +1,7 @@
-#N canvas 1063 341 376 321 10;
-#X obj 30 71 / 127;
-#X obj 100 71 / 127;
-#X obj 30 163 s range-from;
+#N canvas 953 353 422 321 10;
+#X obj 90 81 / 127;
+#X obj 160 81 / 127;
+#X obj 90 163 s range-from;
 #N canvas 920 549 450 382.062 quantize 0;
 #X floatatom 200 130 5 0 0 0 - - -, f 5;
 #X obj 200 20 r npulses;
@@ -48,7 +48,7 @@
 #X connect 18 0 19 0;
 #X connect 19 0 17 0;
 #X connect 19 1 2 0;
-#X restore 30 142 pd quantize;
+#X restore 90 142 pd quantize;
 #N canvas 920 550 450 382.062 quantize 0;
 #X floatatom 200 130 5 0 0 0 - - -, f 5;
 #X obj 200 20 r npulses;
@@ -95,10 +95,10 @@
 #X connect 18 0 19 0;
 #X connect 19 0 17 0;
 #X connect 19 1 2 0;
-#X restore 141 142 pd quantize;
-#X obj 141 163 s range-to;
-#X obj 169 50 loadbang;
-#X msg 169 75 1;
+#X restore 201 142 pd quantize;
+#X obj 201 163 s range-to;
+#X obj 229 60 loadbang;
+#X msg 229 85 1;
 #X obj 20 265 s play;
 #X obj 90 265 s rec;
 #X obj 20 190 ctlin 60;
@@ -106,32 +106,36 @@
 #X msg 20 240 int \$1;
 #X obj 90 215 != 0;
 #X obj 90 190 ctlin 62;
-#X obj 30 50 ctlin 20;
-#X obj 100 50 ctlin 21;
-#X obj 170 190 ctlin 26;
-#X obj 170 215 moses 1;
-#X obj 170 265 moses 1;
-#X obj 170 240 ctlin 27;
-#X obj 260 100 moses 0;
-#X obj 299 125 moses 1;
-#X obj 260 125 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#X obj 90 60 ctlin 20;
+#X obj 160 60 ctlin 21;
+#X obj 230 190 ctlin 26;
+#X obj 230 215 moses 1;
+#X obj 230 265 moses 1;
+#X obj 230 240 ctlin 27;
+#X obj 320 100 moses 0;
+#X obj 359 125 moses 1;
+#X obj 320 125 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
 #000000 #000000;
-#X obj 299 150 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#X obj 359 150 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
 #000000 #000000;
-#X obj 338 130 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#X obj 398 130 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
 #000000 #000000;
-#X msg 338 153 2;
-#X msg 299 173 1;
-#X msg 260 173 3;
-#X obj 260 198 change;
-#X floatatom 260 223 5 0 0 0 - - -, f 5;
-#X obj 260 247 t b f;
-#X obj 260 272 s reset;
-#X obj 310 272 s div;
-#X obj 260 50 bendin 0 1;
-#X obj 260 75 - 8192;
-#X text 30 10 F1 = CC 20 \, F2 = CC21 \, A = CC 26 \, B = CC27;
+#X msg 398 153 2;
+#X msg 359 173 1;
+#X msg 320 173 3;
+#X obj 320 198 change;
+#X floatatom 320 223 5 0 0 0 - - -, f 5;
+#X obj 320 247 t b f;
+#X obj 320 272 s reset;
+#X obj 370 272 s div;
+#X obj 320 50 bendin 0 1;
+#X obj 320 75 - 8192;
 #X text 30 30 Use A and B for duplets and triplets;
+#X obj 20 81 > 0;
+#X obj 20 106 s layer-r;
+#X obj 20 60 ctlin 9;
+#X text 30 10 F1 = CC 20 \, F2 = CC21 \, K2 = CC9 \, A = CC 26 \, B
+= CC27;
 #X connect 0 0 3 0;
 #X connect 1 0 4 0;
 #X connect 3 0 2 0;
@@ -167,3 +171,5 @@
 #X connect 31 1 33 0;
 #X connect 34 0 35 0;
 #X connect 35 0 21 0;
+#X connect 37 0 38 0;
+#X connect 39 0 37 0;
