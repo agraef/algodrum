@@ -168,7 +168,7 @@ presets.;
 #X text 340 150 K1 - low pulse strength \; K2 - high pulse strength
 \; bend up - duplet \; bend dn - triplet, f 26;
 #X obj 340 100 declare -path lib;
-#X obj 340 120 control-full;
+#X obj 340 120 control-combo;
 #X connect 0 0 1 0;
 #X connect 0 1 2 0;
 #X connect 1 0 3 0;

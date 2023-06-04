@@ -64,6 +64,6 @@ The available control schemes are provided as abstractions named `control-xyz` i
 
 - control-starrypad.pd: This assigns CC20 and CC21 to the pulse filter controls, and the play/stop and rec transport controls to the appropriate functions. Moreover, since the StarryPad has no pitch bend wheel, the A and B buttons work as momentary switches for duplet/triplet divisions.
 
-- control-full.pd: This is a combination of the assignments in the generic, miniplus, and starrypad schemes, useful if you have both controllers available and want to use them at the same time.
+- control-combo.pd: This is a combination of the assignments in the generic, miniplus, and starrypad schemes, useful if you have multiple controllers available and want to use them all at the same time.
 
-As I'm lazy and don't want to change the control scheme all the time, control-full is currently the default. But YMMV, so you may want to change it. To enable any of these bindings, just replace the `control-full` abstraction in the algodrum patch with whatever best suits your purpose. If your controller doesn't match, you might still be able to make it work by just changing some CC numbers in the subpatch.
+As I'm lazy and don't want to change the control scheme all the time, control-combo is currently the default. But YMMV, so you may want to change it. To enable any of these bindings, just replace the control-combo abstraction in the algodrum patch with whatever best suits your purpose. If your controller doesn't match, you might still be able to make it work by just changing some CC numbers in the control subpatch.
