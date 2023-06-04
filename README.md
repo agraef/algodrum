@@ -1,20 +1,22 @@
 # algodrum
 
-This is an algorithmic drum machine based on Barlow's theory of meter as explained in his book "On Musiquantics" (Section 22, "A Quantitative Approach to Metre"). It generates rhythmic patterns for any given meter in an automatic fashion, assigning a unique pulse strength to each pulse. Different notes can be played for different ranges of pulse strengths, and the pulses can be filtered according to their strengths.
+This is an algorithmic drum machine based on Barlow's theory of meter and rhythm as explained in his book "On Musiquantics" (Section 22, "A Quantitative Approach to Metre"). It generates rhythmic patterns for any given meter in an automatic fashion, assigning a unique pulse strength to each pulse. Different notes can be played for different ranges of pulse strengths, and the pulses can be filtered according to their strengths.
 
 ![algodrum](algodrum.png)
 
-algodrum is a bit quirky as drum sequencers go, but it handles complex meters with ease, and can be used to produce interesting and dynamically evolving rhythmic or melodic patterns with a bit of experimentation and creativity. Also, it works more like an arpeggiator and is thus perfectly usable without any real finger drumming skills.
+algodrum is a bit quirky as drum sequencers go, but it handles complex meters with ease, and can be used to produce interesting and dynamically evolving rhythmic or melodic patterns with a bit of experimentation and creativity. Also, it works more like an arpeggiator and is thus perfectly usable without requiring any real finger drumming skills.
 
 ## Prerequisites
 
-algodrum is implemented as a Pd patch, and includes some externals written in Lua, so you'll need Pd (any recent version of vanilla Pd or Purr Data will do) and Pd-Lua (0.11 or later, available from https://agraef.github.io/pd-lua/).
+algodrum is implemented as a Pd patch, and includes some externals written in Lua, so you'll need Pd (any recent version of vanilla [Pd](http://msp.ucsd.edu/software.html) or [Purr Data](https://agraef.github.io/purr-data/) will do) and Pd-Lua (0.11 or later, available from https://agraef.github.io/pd-lua/; note that Purr Data already includes this and has it in its startup libraries by default).
 
 I've only tested algodrum on Linux so far, but it's not in any way OS-specific, so it should work fine on Mac and Windows, too.
 
 ## Operation
 
 Normally, playback goes to MIDI channel 10 which usually has a drumkit on a GM-compatible synthesizer. But you can also play melodies by changing the `ch` numbox in the gmkit abstration. In this case you may also want to engage the secondary sample-driven drumkit in the sampler abstraction, which can be used to play along the main sequencer in the gmkit abstraction which outputs MIDI.
+
+Note that at present, due to technical limitations it is not possible to run multiple algodrum instances in a single Pd process. Thus, if you need to run multiple algodrums in concert, you'll have to launch them in different Pd instances. In this case, to keep the multiple instances in sync, you can either start transport using a MIDI controller with transport controls (see "MIDI Controls" below), or by using an external clock source (see "Transport").
 
 ### Transport
 
@@ -46,30 +48,36 @@ The pulse filter can actually be operated in two modes: *filter mode* (the defau
 
 The modes differ, however, in how filtered-out notes are handled. In *filter mode*, filtered-out notes will not sound at all. By these means, you can mute either low-strength pulses with the green slider (which has the effect of gradually "thinning out" the pulse train as you move the slider), or high-strength pulses with the red slider (giving the rhythm an "off-beat" feel). Of course, you can also do both at the same time. This can be used as a live performance technique, or to edit the sequence while focusing on just a subset of the pulses.
 
-In *layering* or *overdub mode*, the filtered-out notes will be played from the pattern instead, but they can neither be overridden by note input, nor recorded (or erased). This lets you listen to the entire sequence while modifying (and possibly recording) just the filtered pulses. Again, this can be used as a performance technique, but it also gives you an easy way to edit parts of a pattern in context.
+In contrast, *layering* or *overdub mode* will actually play the filtered-out notes from the pattern instead of muting them, but they can neither be overridden by note input nor recorded (or erased). This lets you listen to the entire sequence while modifying (and possibly recording) just the filtered pulses. Again, this can be used as a performance technique, but it also gives you an easy way to edit parts of a pattern in context.
 
 ## MIDI Controls
 
-First, you want to make sure that you have your MIDI controller hooked up to Pd's MIDI input so that you can input notes and employ the MIDI controls of your device. And of course you want to connect Pd's MIDI output to whatever synthesizer you want to play algodrum's output.
+You can hook up a MIDI controller to Pd's MIDI input so that you can input notes and employ the MIDI controls of your device. (Note that algodrum takes input from any MIDI channel, so if you need to filter out some MIDI channels, you'll have to use an external tool for that purpose.) And of course you want to connect Pd's MIDI output to whatever synthesizer you want to play algodrum's output.
 
-NB: You can do without MIDI controller and synthesizer, but then you'll only be able to play the (rather limited) sampled drumkit of the included sampler abtraction. To fully utilize algodrum, you'll need to have both MIDI input and output working.
+NB: You can do without MIDI controller and synthesizer, but then you'll only be able to play presets using the sampled drumkit of the included sampler abstraction. To get the most out of algodrum, you'll really want a suitable MIDI controller (there are many reasonably good budget options available today, such as the [AKAI MPK mini](https://www.akaipro.com/mpk-mini-mk3) keyboards) and either a drumkit sampler or a GM-compatible synth (check, e.g., [Sitala](https://decomposer.de/sitala/) for the former and [Qsynth](https://qsynth.sourceforge.io/) for the latter, which can both be downloaded free of charge).
 
-As already mentioned, all available control schemes accept pitch bends as duplet/triplet controls (see above). In addition, if your MIDI controller has a sustain pedal, you can use it to momentarily engage `rec` mode, which is handy for hands-free operation if you're busy operating the drum pads. Also, if your MIDI controller has a volume control (CC7), it can be used to change the MIDI volume in the gmkit abtraction (this can also be operated manually by changing the volume slider with the mouse).
+As already mentioned, all available control schemes accept pitch bends as duplet/triplet controls (see above). In addition, if your MIDI controller has a sustain pedal, you can use it to momentarily engage `rec` mode, which is handy for hands-free operation if you're busy operating the drum pads. Also, the volume control (CC7) can be used to change the MIDI volume in the gmkit abstraction (this can also be operated manually by changing the volume slider with the mouse). Last but not least, presets can be loaded using MIDI program change messages (PC 1 thru 8), see "Managing Presets" below for details.
 
-Note that algodrum takes input from any MIDI channel, so if you need to filter out some MIDI channels, you'll have to use an external tool for that purpose.
-
-The available control schemes are provided as abstractions named `control-xyz` in the lib subfolder. At present, we have ready-made control schemes for the AKAI mini/miniplus keyboards, as well as the Donner StarryPad drumpad (a budget drum controller, but very usable). There's also a generic control scheme which should work with most MIDI controllers and offers some computer keyboard bindings for functions which might not be readily available as MIDI buttons.
+The available control schemes are provided as abstractions named `control-xyz` in the lib subfolder. At present, we have ready-made control schemes for the AKAI MPK mini and miniplus keyboards, as well as the Donner StarryPad drumpad. There's also a generic control scheme which should work with most MIDI controllers and offers some computer keyboard bindings for functions which might not be readily available as MIDI buttons. Here is a quick rundown of the available control patches:
 
 - control-generic.pd: This assigns CC3 and CC4 to the pulse filter controls, and CC2 to the `layer` toggle. The F1 and F2 keys on the computer keyboard are assigned to the `play` and `rec` functions, respectively.
 
-- control-miniplus.pd: This will work with any of the AKAI mini keyboards. It assigns CC72 and CC73 (a.k.a. K3 and K4) to the pulse filter controls, and CC2 (a.k.a. K2) to the `layer` toggle. On the miniplus, the STOP, PLAY, and REC transport buttons also work as you'd expect.
+- control-miniplus.pd: This will work with any of the AKAI MPK mini keyboards. It assigns CC72 and CC73 (a.k.a. K3 and K4) to the pulse filter controls, and CC71 (a.k.a. K2) to the `layer` toggle. On the miniplus, the STOP, PLAY, and REC transport buttons also work as you'd expect.
 
 - control-starrypad.pd: This assigns CC20 and CC21 (a.k.a. F1 and F2) to the pulse filter controls, and CC9 (a.k.a. K2) to the `layer` toggle. The play/stop and rec transport controls are assigned to the appropriate functions. Moreover, since the StarryPad has no pitch bend wheel, the A and B buttons work as momentary switches for duplet/triplet divisions.
 
 - control-combo.pd: This is a combination of the assignments in the generic, miniplus, and starrypad schemes, useful if you have multiple controllers available and want to use them all at the same time.
 
-As I'm lazy and don't want to change the control scheme all the time, control-combo is currently the default. But YMMV, so you may want to change it. To use any of these bindings, just replace the control-combo abstraction in the algodrum patch with whatever best suits your purpose, or adjust the control-combo abstraction for your needs. If your controller doesn't match, chances are that you can still get it to work by just changing some CC numbers in the subpatch.
+As I'm lazy and don't want to change the control scheme all the time, control-combo is currently the default. YMMV, so you may want to change it. To use any of these bindings, just replace the control-combo abstraction in the algodrum patch with whatever best suits your purpose. You can also just take the control-combo abstraction and adjust it for your needs. If your controller doesn't match, chances are that you can still get it to work by just changing some CC numbers in the control patch.
+
+If you have any control patches of your own which might be useful for others, please toss them my way so that I can include them in the github project.
 
 ## Managing Presets
 
-There's no preset management at present, but you can save the patch under a new name to store the relevant settings (meter, bpm, MIDI channel) along with it.
+algodrum includes a simple preset manager, which allows you to store the current settings (meter, division, bpm, MIDI output channel) along with the current pattern as numbered files on permanent storage, which can be recalled at any time. To these ends you'll find a column with eight preset slots on the right-hand side of the main patch. Use the `save` and `load` buttons to save and load individual presets to and from text files in the presets folder. If your MIDI controller allows you to send program change (PC) messages, you can also use these to load presets (PC *n* to switch to preset *n*, where *n* runs from 1 to 8).
+
+Once a preset has been saved, the colors of the buttons change to reflect the status change. There is no button to delete a stored preset, but you can do this outside of Pd by just deleting the corresponding files in the presets folder (preset*n*.*, where *n* denotes the preset number in the range 1-8). (You might want to back up the files in a secure place before you do that.)
+
+## Author
+
+Albert Gräf (<aggraef@gmail.com>, https://agraef.github.io/)
