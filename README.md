@@ -10,7 +10,9 @@ algodrum is a bit quirky as drum sequencers go, but it handles complex meters wi
 
 algodrum is implemented as a Pd patch, and includes some externals written in Lua, so you'll need Pd (any recent version of vanilla [Pd](http://msp.ucsd.edu/software.html) or [Purr Data](https://agraef.github.io/purr-data/) will do) and Pd-Lua (0.11 or later, available from https://agraef.github.io/pd-lua/; note that Purr Data already includes this and has it in its startup libraries by default).
 
-I've only tested algodrum on Linux so far, but it's not in any way OS-specific, so it should work fine on Mac and Windows, too.
+Tested on Linux and Mac so far, but it's not in any way OS-specific, so it should work fine on Windows, too.
+
+As shipped, algodrum is set up to optionally work with Jack transport, which allows tempo, meter and bbt information to be received from Ardour. This requires a little Jack transport module for Lua (lib/jtime.c) which has to be compiled by running `make` in the lib subdirectory (this needs the Jack development files to be installed). If you don't have Jack or don't care for this feature, you can simply remove the `jacktime` object from the lib/timebase.pd patch to get rid of any corresponding error messages while loading the patch. Note that algodrum can also be driven by an external MIDI clock generator. This feature is still a bit experimental and not quite as convenient, but it may be your only option to synchronize algodrum with your DAW if Jack transport is not available.
 
 ## Operation
 
