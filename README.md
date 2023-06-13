@@ -82,7 +82,7 @@ Once a preset has been saved, the colors of the buttons change to reflect the st
 
 # algobeat
 
-In case algodrum is too quirky for your taste, we've also thrown this little step sequencer based on the same theory on rhythm and meter, but using a more traditional 16x8 grid layout. Thus, while algodrum is monophonic, algobeat can play up to 8 notes simultaneously. But the note velocities (and, for the pattern generation feature, the note probabilities) are computed using the same algorithm. algobeat is still a bit experimental and subject to change, but hopefully you should be able to find your way with the preliminary instructions below.
+In case algodrum is too quirky for your taste, we've also thrown in this little step sequencer based on the same theory on rhythm and meter, but using a more traditional 16x8 grid layout. Thus, while algodrum is monophonic, algobeat can play up to 8 notes simultaneously. But the note velocities (and, for the pattern generation feature, the note probabilities) are computed using the same algorithm. algobeat is still a bit experimental and subject to change, but hopefully you should be able to find your way with the preliminary instructions below.
 
 ![algobeat](algobeat.png)
 
@@ -98,13 +98,13 @@ Subdivisions (the `div` parameter) can be controlled in the same fashion as with
 
 On the left-hand-side of the grid, the column with the round buttons lets you commit patterns for playback after toggling the 16 switches in a lane. On the right-hand side, the numbox column lets you enter note numbers to play on each lane, and the radio buttons let you select a lane for entering notes with the MIDI keyboard, and to generate a pattern using the probabilistic functions. All these elements are described in further detail below.
 
-During playback, the current position on the grid is indicated with a light blue bar in the corresponding column. A yellow bar in the grid indicates the range of grid positions to be played, in case the meter has less than 16 beats (the yellow grid column then indicates the first beat that is off the grid).
+During playback, the current position on the grid is indicated with a light blue bar in the corresponding column. An orange bar in the grid indicates the range of grid positions to be played, in case the meter has less than 16 beats (the orange grid column then indicates the first beat that is off the grid).
 
 ### Entering Notes
 
 To add a note to a lane, you can either just change the note number on the right, or click the right-hand side radio button on the corresponding row to select the lane and play a note on the MIDI keyboard. Tick all the boxes (toggles) where the note should be triggered. Note that the round button on the left then turns red to indicate that you still need to click the button to commit your changes. Before you do this, the previous version of the pattern continues to play and you still have the opportunity to undo your changes by pressing the `undo` button in the top right corner in the main patch.
 
-Also note that you *must* pick a nonzero note value to have a pattern play on the corresponding lane, i.e., lanes with a zero note value are always excluded from playback.
+Also note that you *must* pick a nonzero note value to have a pattern play, i.e., a zero note value effectively mutes the corresponding lane.
 
 ### Probabilities and Velocities
 
