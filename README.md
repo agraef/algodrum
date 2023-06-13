@@ -80,6 +80,6 @@ algodrum includes a simple preset manager, which allows you to store the current
 
 Once a preset has been saved, the colors of the buttons change to reflect the status change. There is no button to delete a stored preset, but you can do this outside of Pd by just deleting the corresponding files in the presets folder (preset*n*.*, where *n* denotes the preset number in the range 1-8). (You might want to back up the files in a secure place before you do that.)
 
-## Author
 
-Albert Gräf (<aggraef@gmail.com>, https://agraef.github.io/)
+
+Copyright © 2023 by Albert Gräf \<<aggraef@gmail.com>\>, distributed under the GPL (see COPYING). Please also check my GitHub page at https://agraef.github.io/.
