@@ -18,7 +18,7 @@ As shipped, algodrum is set up to optionally work with Jack transport, which all
 
 Normally, playback goes to MIDI channel 10 which usually has a drumkit on a GM-compatible synthesizer. But you can also play melodies by changing the `ch` numbox in the gmkit abstration. In this case you may also want to engage the secondary sample-driven drumkit in the sampler abstraction, which can be used to play along the main sequencer in the gmkit abstraction which outputs MIDI.
 
-Note that at present, due to technical limitations it is not possible to run multiple algodrum instances in a single Pd process. Thus, if you need to run multiple algodrums in concert, you'll have to launch them in different Pd instances. In this case, to keep the multiple instances in sync, you can either start transport using a MIDI controller with transport controls (see "MIDI Controls" below), or by using an external clock source (see "Transport").
+Note that at present, due to technical limitations it is not possible to run multiple algodrum instances in a single Pd process. Thus, if you need to run multiple algodrum in concert, you'll have to launch them in different Pd instances. In this case, to keep the multiple instances in sync, you can either start transport using a MIDI controller with transport controls (see "MIDI Controls" below), or by using an external clock source (see "Transport").
 
 ### Transport
 
@@ -80,6 +80,40 @@ algodrum includes a simple preset manager, which allows you to store the current
 
 Once a preset has been saved, the colors of the buttons change to reflect the status change. There is no button to delete a stored preset, but you can do this outside of Pd by just deleting the corresponding files in the presets folder (preset*n*.*, where *n* denotes the preset number in the range 1-8). (You might want to back up the files in a secure place before you do that.)
 
+# algobeat
+
+In case algodrum is too quirky for your taste, we've also thrown this little step sequencer based on the same theory on rhythm and meter, but using a more traditional 16x8 grid layout. Thus, while algodrum is monophonic, algobeat can play up to 8 notes simultaneously. But the note velocities (and, for the pattern generation feature, the note probabilities) are computed using the same algorithm. algobeat is still a bit experimental and subject to change, but hopefully you should be able to find your way with the preliminary instructions below.
+
+![algobeat](algobeat.png)
+
+## Usage
+
+MIDI setup is the same as with algodrum, and you can use the same control patches (the control patch can be found in the `pd midi` subpatch in case you want to change it).
+
+As with algodrum, you choose the meter and press play (or enable Jack transport control). In contrast to algodrum, your patterns are stored on the 16x8 grid, meaning that you can have at most 16 steps in each of the 8 lanes. At present, there are no presets, so when launching the patch the grid will come up with the note numbers and toggles from last time you saved the patch.
+
+Subdivisions (the `div` parameter) can be controlled in the same fashion as with algodrum, but they have a different meaning, functioning as a ratchet (repeated notes played as duplets or triplets in the Barlow meter). Also, the `ratchet` control in the main patch actually lets you choose any kind of tuplet that the `meter` object supports (up to septuplets).
+
+### The Grid
+
+On the left-hand-side of the grid, the column with the round buttons lets you commit patterns for playback after toggling the 16 switches in a lane. On the right-hand side, the numbox column lets you enter note numbers to play on each lane, and the radio buttons let you select a lane for entering notes with the MIDI keyboard, and to generate a pattern using the probabilistic functions. All these elements are described in further detail below.
+
+During playback, the current position on the grid is indicated with a light blue bar in the corresponding column. A yellow bar in the grid indicates the range of grid positions to be played, in case the meter has less than 16 beats (the yellow grid column then indicates the first beat that is off the grid).
+
+### Entering Notes
+
+To add a note to a lane, you can either just change the note number on the right, or click the right-hand side radio button on the corresponding row to select the lane and play a note on the MIDI keyboard. Tick all the boxes (toggles) where the note should be triggered. Note that the round button on the left then turns red to indicate that you still need to click the button to commit your changes. Before you do this, the previous version of the pattern continues to play and you still have the opportunity to undo your changes by pressing the `undo` button in the top right corner in the main patch.
+
+Also note that you *must* pick a nonzero note value to have a pattern play on the corresponding lane, i.e., lanes with a zero note value are always excluded from playback.
+
+### Probabilities and Velocities
+
+As an alternative to entering notes manually, you can also choose a range of probabilities with the `minprob` and `maxprob` sliders and push the `generate` button to automatically generate a pattern which reflects the pulse strengths in the current meter. This affects the entire row selected with the radio button on the right-hand side of the grid (up to the number of beats in the current meter), and commits the changes so that the new pattern starts playing immediately. This operation cannot be undone (except by reverting to the last saved version of the patch.)
+
+With the default range of `minprob` and `maxprob` values of 0 and 1, the probability of a note being triggered is determined entirely by the pulse strength computed using Barlow's algorithm, which is interpreted as a probability value in the 0 to 1 range. Thus a low pulse strength means an equally low note probability (with zero strength pulses having zero probability), and a high pulse strength means an equally high note probability (with maximum strength pulses having 100% probability). Increasing the `minprob` value increases all note probabilities (so that even a zero strength pulse has a nonzero probability), while decreasing the `maxprob` value decreases them (so that even a maximum strength pulse might be skipped).
+
+Finally, the `minvel` slider lets you choose a minimum velocity for the playback. As with algodrum, note velocity varies automatically according to pulse strengths. If you lower the `minvel` value, the velocities of lower-strength pulses will be reduced. If you turn it down to 0, the lowest-strength pulses will not sound at all, while cranking the slider all the way up to 1 will make all pulses sound the same (effectively eliminating the Barlow pulse strengths).
 
 
-Copyright © 2023 by Albert Gräf \<<aggraef@gmail.com>\>, distributed under the GPL (see COPYING). Please also check my GitHub page at https://agraef.github.io/.
+
+Copyright © 2023 by Albert Gräf \<<aggraef@gmail.com>\>. Distributed under the GPL (see COPYING). Please also check my GitHub page at https://agraef.github.io/.
