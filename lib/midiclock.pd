@@ -1,4 +1,4 @@
-#N canvas 257 118 726 577 12;
+#N canvas 1194 261 726 577 12;
 #X obj 20 20 midirealtimein;
 #X obj 20 170 bng 15 50 10 0 empty empty empty 17 7 0 10 #fcfcfc #000000
 #000000;
@@ -217,7 +217,7 @@ any values yet \, to get the filter initialized via outlet #2. Subsequently
 #X text 550 429 clocks in pulse;
 #X text 550 343 16ths (clocks/6);
 #X text 550 520 next pulse in bar;
-#N canvas 250 100 450 378 quant 0;
+#N canvas 2848 484 450 378 quant 0;
 #X obj 30 80 inlet;
 #X obj 30 168 outlet;
 #X obj 30 109 expr ceil(rint($f1*16)/16);
